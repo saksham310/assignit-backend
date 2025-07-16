@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
 from .models import User
 
 
@@ -19,3 +21,14 @@ class UserSignUpSerializer(serializers.ModelSerializer):
         validated_data.pop('password2')
         user = User.objects.create_user(** validated_data)
         return user
+
+class UserLoginInSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['user'] = {
+            'id': self.user.id,
+            'username': self.user.username,
+            'email': self.user.email,
+            'imageUrl': self.user.image_url,
+        }
+        return data
