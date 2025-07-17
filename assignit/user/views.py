@@ -20,7 +20,6 @@ class UserSignUpAPIView(APIView):
                 'refresh': str(token),
                 'access': str(token.access_token),
                 'user':{
-                    'id': user.id,
                     'username': user.username,
                     'email': user.email,
                     'imageUrl': user.image_url,
